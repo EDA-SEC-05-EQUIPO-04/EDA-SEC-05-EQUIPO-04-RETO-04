@@ -43,6 +43,30 @@ de creacion y consulta sobre las estructuras de datos.
 # -----------------------------------------------------
 
 # Funciones para agregar informacion al grafo
+citibike['graph']=gr.newGraph(datastructure="ADJ_LIST",
+             directed=True,
+             size=1000,
+             comparefunction=compareStations
+             )
+
+def addTrip(citibike, trip):
+    """
+    """
+    origin = trip['start station id']
+    destination = trip['end station id']
+    duration = int(trip['tripduration'])
+    addStation(citibike, origin)
+    addStation(citibike, destination)
+    addConnection(citibike, origin, destination, duration)
+
+def addStation(citibike, stationid):
+    """
+    Adiciona una estación como un vertice del grafo
+    """
+    if not gr.containsVertex(citibike [‘graph’], stationid):
+            gr.insertVertex(citibike [‘graph’], stationid)
+    return citibike
+
 
 # ==============================
 # Funciones de consulta

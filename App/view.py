@@ -97,7 +97,7 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n>')
 
-    if int(inputs[0]) == 1:
+    if  inputs[0] == "1":
         printRespuesta()
         
         print("\nInicializando....")
@@ -106,13 +106,13 @@ while True:
        
         printRespuesta()
     
-    elif int(inputs[0]) == 2:
+    elif inputs[0] == "2":
         printRespuesta()
         executiontime = timeit.timeit(optionLoad, number=1)
         print("Tiempo de ejecución: " + str(executiontime))
         printRespuesta()
 
-    elif int(inputs[0]) == 3:
+    elif inputs == "R1":
         printRespuesta()
         executiontime = timeit.timeit(optionOne, number=1)
         print("Tiempo de ejecución: " + str(executiontime))

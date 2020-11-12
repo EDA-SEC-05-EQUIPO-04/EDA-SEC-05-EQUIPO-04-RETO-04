@@ -41,13 +41,43 @@ de creacion y consulta sobre las estructuras de datos.
 # -----------------------------------------------------
 #                       API
 # -----------------------------------------------------
+def newAnalyzer():
+    """ Inicializa el analizador
+   stops: Tabla de hash para guardar los vertices del grafo
+   connections: Grafo para representar las rutas entre estaciones
+   components: Almacena la informacion de los componentes conectados
+   paths: Estructura que almancena los caminos de costo minimo desde un
+           vertice determinado a todos los otros vértices del grafo
+    """
+    try:
+        citybike = {
+                    'stops': None,
+                    'connections': None,
+                    'components': None,
+                    'paths': None,
+                    'graph':None
+                    }
 
-# Funciones para agregar informacion al grafo
-citibike['graph']=gr.newGraph(datastructure="ADJ_LIST",
+        citybike['stops'] = m.newMap(numelements=14000,
+                                     maptype='PROBING',
+                                     comparefunction=compareStopIds)
+
+        citybike['connections'] = gr.newGraph(datastructure='ADJ_LIST',
+                                              directed=True,
+                                              size=14000,
+                                              comparefunction=compareStopIds)
+        citybike['graph']=gr.newGraph(datastructure="ADJ_LIST",
              directed=True,
              size=1000,
              comparefunction=compareStations
-             )
+             )                                
+        return citybike
+    except Exception as exp:
+        error.reraise(exp, 'model:newAnalyzer')
+
+
+# Funciones para agregar informacion al grafo
+
 
 def addTrip(citibike, trip):
     """
@@ -63,14 +93,45 @@ def addStation(citibike, stationid):
     """
     Adiciona una estación como un vertice del grafo
     """
-    if not gr.containsVertex(citibike [‘graph’], stationid):
-            gr.insertVertex(citibike [‘graph’], stationid)
+    if not gr.containsVertex(citibike['graph'], stationid):
+            gr.insertVertex(citibike['graph'], stationid)
     return citibike
 
+def addConnection(citybike, origin, destination, duration):
+    """
+    Adiciona un arco entre dos estaciones
+    """
+    edge = gr.getEdge(citybike['graph'], origin, destination)
+    if edge is None:
+        gr.addEdge(citybike['graph'], origin, destination, duration)
+    return citybike
 
 # ==============================
 # Funciones de consulta
 # ==============================
+def totalStops(analyzer):
+    """
+    Retorna el total de estaciones (vertices) del grafo
+    """
+    return gr.numVertices(analyzer['graph'])
+
+
+def totalConnections(analyzer):
+    """
+    Retorna el total arcos del grafo
+    """
+    return gr.numEdges(analyzer['graph'])
+
+def connectedComponents(analyzer):
+    """
+    Calcula los componentes conectados del grafo
+    Se utiliza el algoritmo de Kosaraju
+    """
+    analyzer['components'] = scc.KosarajuSCC(analyzer['graph'])
+    return scc.connectedComponents(analyzer['components'])
+
+def sameCC(sc, station1, station2):
+    return scc.stronglyConnected(sc, station1, station2)
 
 # ==============================
 # Funciones Helper
@@ -79,3 +140,36 @@ def addStation(citibike, stationid):
 # ==============================
 # Funciones de Comparacion
 # ==============================
+def compareStopIds(stop, keyvaluestop):
+    """
+    Compara dos estaciones
+    """
+    stopcode = keyvaluestop['key']
+    if (stop == stopcode):
+        return 0
+    elif (stop > stopcode):
+        return 1
+    else:
+        return -1
+def compareStations(stop, keyvaluestop):
+    """
+    Compara dos estaciones
+    """
+    stopcode = keyvaluestop['key']
+    if (stop == stopcode):
+        return 0
+    elif (stop > stopcode):
+        return 1
+    else:
+        return -1
+
+def compareroutes(route1, route2):
+    """
+    Compara dos rutas
+    """
+    if (route1 == route2):
+        return 0
+    elif (route1 > route2):
+        return 1
+    else:
+        return -1

@@ -174,5 +174,5 @@ def compareroutes(route1, route2):
     else:
         return -1
 
-def Function2 (controller, station, time):
+def Function2 (controller, time1, time2):
     return scc.KosarajuSCC(controller)

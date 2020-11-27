@@ -74,9 +74,9 @@ def optionOne():
     print('La estación {} y la estación {} {} pertencen al mismo cluster.'.format(station1,station2,res))
 
 def optionTwo():
-    time1 = input("Ingrese su estación de inicio: ")
+    time1 = input("Ingrese su tiempo inicial: ")
     time2 = int(input("Ingrese su tiempo final:"))
-    ret = controller.Function2(cont, time1, time)
+    ret = controller.Function2(cont, time1, time2)
     print(ret)
     
 def printMenu():

@@ -73,6 +73,11 @@ def optionOne():
 
     print('La estación {} y la estación {} {} pertencen al mismo cluster.'.format(station1,station2,res))
 
+def optionTwo():
+    x = input("Ingrese su estación de inicio: ")
+    time = int(input("Ingrese su tiempo"))
+    ret = controller.Function2(controller, x, time)
+    
 def printMenu():
     print("\n")
     print("*******************************************")
@@ -117,5 +122,11 @@ while True:
         executiontime = timeit.timeit(optionOne, number=1)
         print("Tiempo de ejecución: " + str(executiontime))
         printRespuesta()
+    
+    elif inputs == "R2":
+        optionTwo()
+
+
+
     else:
         sys.exit(0)

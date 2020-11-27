@@ -76,7 +76,8 @@ def optionOne():
 def optionTwo():
     x = input("Ingrese su estación de inicio: ")
     time = int(input("Ingrese su tiempo"))
-    ret = controller.Function2(controller, x, time)
+    ret = controller.Function2(cont, x, time)
+    print(ret)
     
 def printMenu():
     print("\n")

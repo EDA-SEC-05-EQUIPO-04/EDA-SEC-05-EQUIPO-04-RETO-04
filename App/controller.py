@@ -102,4 +102,4 @@ def sameCC(analyzer,station1,station2):
     return model.sameCC(analyzer['components'],station1,station2)
 
 def Function2(analyzer, station, time):
-    model.Function2(analyzer, station, time)
+    return model.Function2(analyzer, station, time)

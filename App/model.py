@@ -173,3 +173,38 @@ def compareroutes(route1, route2):
         return 1
     else:
         return -1
+
+def Function2 (controller, time1, time2, stationid):
+    station2= input("a que estación quiere dirigirse? ")
+
+    #CICLO
+    road = djk.Dijkstra(controller["graph"], stationid)
+    caminoida= djk.pathTo(road, station2)
+    retorno = djk.Dijkstra(controller["graph"], station2)
+    caminovuelta= djk.pathTo(retorno, stationid)
+
+    cam1= djk.distTo(road, station2)
+    cam2= djk.distTo(retorno, stationid)
+
+    if lt.isEmpty(caminovuelta) or lt.isEmpty(caminoida):
+        print("no hay camino conectado de "+ stationid + " a "+station2)
+        return lt.newList(datastructure='SINGLE_LINKED', cmpfunction=None)
+        
+    else:
+        if (cam1+((int(djk.pathTo(road, station2)['size'])*20))) + (cam2+((int(djk.pathTo(retorno, stationid)['size'])*20))) in range(time1, time2):
+            
+            print (djk.pathTo(road, station2))
+            print (djk.pathTo(retorno, stationid))
+            
+
+            return("se encontró el siguiente camino de ida y vuelta")
+        
+        else:
+            print("se encontró un camino, pero esta fuera de los parametros establecidos.")
+            return lt.newList(datastructure='SINGLE_LINKED', cmpfunction=None)
+
+    #CICLO
+
+    tup= (caminoida, caminovuelta)
+
+    return tup

@@ -141,6 +141,13 @@ def compareStations(stop, keyvaluestop):
     else:
         return -1
 
+def optionTwo(cont):
+    time1 = int(input("Ingrese su tiempo inicial: "))
+    time2 = int(input("Ingrese su tiempo final:"))
+    stationid = (input("Ingrese su estacion de inicio:"))
+    ret = controller.Function2(cont, time1, time2, stationid)
+    print(ret)
+    
 def printMenu():
     print("\n")
     print("*******************************************")
@@ -187,7 +194,7 @@ while True:
         printRespuesta()
     
     elif inputs == "R2":
-        None
+        optionTwo(cont)
 
     elif inputs == "R3":
         None
@@ -221,6 +228,9 @@ while True:
         executiontime = timeit.timeit(optionEighth, number=1)
         print("Tiempo de ejecución: " + str(executiontime))
         printRespuesta()
+        
+
+
 
     else:
         sys.exit(0)

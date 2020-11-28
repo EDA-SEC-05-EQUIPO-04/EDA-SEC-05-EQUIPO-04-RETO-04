@@ -120,3 +120,5 @@ def seventhRequirement(cont,rango):
 
 def eighthRequirement(cont,id,fecha):
     return model.eighthRequirement(cont,id,fecha)
+def Function2(analyzer, time1, time2, stationid):
+    return model.Function2(analyzer, time1, time2, stationid)

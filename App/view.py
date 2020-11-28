@@ -29,8 +29,11 @@ import sys
 import config
 from App import controller
 from DISClib.ADT import stack
+from DISClib.ADT import list as lt
+from DISClib.DataStructures import listiterator as it
 import timeit
 assert config
+import datetime
 
 """
 La vista se encarga de la interacción con el usuario.
@@ -43,35 +46,12 @@ operación seleccionada.
 #  Variables
 # ___________________________________________________
 
-
 initialStation = None
 recursionLimit = 20000
+
 # ___________________________________________________
 #  Menu principal
 # ___________________________________________________
-
-def optionLoad():
-    print("\nCargando información de bicicletas...")
-    controller.loadTrips(cont)
-    numedges = controller.totalConnections(cont)
-    numvertex = controller.totalStops(cont)
-    print('Numero de vertices: ' + str(numvertex))
-    print('Numero de arcos: ' + str(numedges))
-    print('El limite de recursion actual: ' + str(sys.getrecursionlimit()))
-    sys.setrecursionlimit(recursionLimit)
-    print('El limite de recursion se ajusta a: ' + str(recursionLimit))
-
-def optionOne():
-    print('El número de componentes conectados es: ' +
-          str(controller.connectedComponents(cont)))
-    station1=input("Id estación 1 a comparar:\n")
-    station2=input("Id estación 2 a comparar:\n")
-    if controller.sameCC(cont,station1,station2):
-        res="SI"
-    else:
-        res="NO"
-
-    print('La estación {} y la estación {} {} pertencen al mismo cluster.'.format(station1,station2,res))
 
 def printMenu():
     print("\n")
@@ -88,8 +68,39 @@ def printMenu():
     print("0- Salir")
     print("*******************************************")
 
-def printRespuesta():
-    print("---------------------------------------------------")
+
+def optionTwo():
+    print("\nCargando información....")
+
+    controller.loadTrips(cont)
+
+    numedges = controller.totalConnections(cont)
+    numvertex = controller.totalStops(cont)
+    print('Numero de vertices: ' + str(numvertex))
+    print('Numero de arcos: ' + str(numedges))
+    print('El limite de recursion actual: ' + str(sys.getrecursionlimit()))
+    sys.setrecursionlimit(recursionLimit)
+    print('El limite de recursion se ajusta a: ' + str(recursionLimit))
+
+def optionFive():
+    critical = controller.criticalStations(cont)
+    print("\nLas estaciones Top de llegada: \n")
+    iterator = it.newIterator(critical[0])
+    while it.hasNext(iterator):
+        a = it.next(iterator)
+        print("La estación {0} con {1} llegadas.".format(a[0],a[1]))
+    
+    print("\nLas estaciones Top de salida: \n")
+    iterator = it.newIterator(critical[1])
+    while it.hasNext(iterator):
+        a = it.next(iterator)
+        print("La estación {0} con {1} salidas.".format(a[0],a[1]))
+
+    print("\nLas estaciones menos concurridas: \n")
+    iterator = it.newIterator(critical[2])
+    while it.hasNext(iterator):
+        a = it.next(iterator)
+        print("La estación {0} con {1} llegadas y salidas.".format(a[0],a[1]))
 """
 Menu principal
 """
@@ -97,25 +108,20 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n>')
 
-    if  inputs[0] == "1":
-        printRespuesta()
-        
+    if int(inputs) == 1:
         print("\nInicializando....")
         # cont es el controlador que se usará de acá en adelante
         cont = controller.init()
-       
-        printRespuesta()
-    
-    elif inputs[0] == "2":
-        printRespuesta()
-        executiontime = timeit.timeit(optionLoad, number=1)
-        print("Tiempo de ejecución: " + str(executiontime))
-        printRespuesta()
 
-    elif inputs == "R1":
-        printRespuesta()
-        executiontime = timeit.timeit(optionOne, number=1)
+    elif int(inputs[0]) == 2:
+        executiontime = timeit.timeit(optionTwo, number=1)
         print("Tiempo de ejecución: " + str(executiontime))
-        printRespuesta()
+
+    elif int(inputs[0]) == 5:
+        executiontime = timeit.timeit(optionFive, number=1)
+        print("Tiempo de ejecución: " + str(executiontime))
+    
+
     else:
         sys.exit(0)
+sys.exit(0)

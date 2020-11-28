@@ -29,7 +29,6 @@ from App import model
 import csv
 import os
 
-
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 Existen algunas operaciones en las que se necesita invocar
@@ -42,10 +41,12 @@ recae sobre el controlador.
 #  Inicializacion del catalogo
 # ___________________________________________________
 
+
 def init():
     """
-    Llama la funcion de inicializacion del modelo.
+    Llama la funcion de inicializacion  del modelo.
     """
+    # analyzer es utilizado para interactuar con el modelo
     analyzer = model.newAnalyzer()
     return analyzer
 
@@ -55,22 +56,22 @@ def init():
 #  de datos en los modelos
 # ___________________________________________________
 
-def loadTrips(citybike):
+def loadTrips(citibike):
     for filename in os.listdir(cf.data_dir):
         if filename.endswith('.csv'):
             print('Cargando archivo: ' + filename)
-            loadFile(citybike, filename)
-    return citybike
+            loadFile(citibike, filename)
+    model.addComponents(citibike)
+    return citibike
 
-def loadFile(citybike, tripfile):
-    """
-    """
+def loadFile(citibike, tripfile):
+
     tripfile = cf.data_dir + tripfile
     input_file = csv.DictReader(open(tripfile, encoding="utf-8"),
                                 delimiter=",")
     for trip in input_file:
-        model.addTrip(citybike, trip)
-    return citybike
+        model.addTrip(citibike, trip)
+    return citibike
 
 
 
@@ -78,11 +79,6 @@ def loadFile(citybike, tripfile):
 #  Funciones para consultas
 # ___________________________________________________
 
-def totalConnections(analyzer):
-    """
-    Total de enlaces entre las paradas
-    """
-    return model.totalConnections(analyzer)
 
 def totalStops(analyzer):
     """
@@ -90,13 +86,19 @@ def totalStops(analyzer):
     """
     return model.totalStops(analyzer)
 
-def connectedComponents(analyzer):
-    """
-    Numero de componentes fuertemente conectados
-    """
-    return model.connectedComponents(analyzer)
 
-def sameCC(analyzer,station1,station2):
+def totalConnections(analyzer):
     """
+    Total de enlaces entre las paradas
     """
-    return model.sameCC(analyzer['components'],station1,station2)
+    return model.totalConnections(analyzer)
+
+def totalTrips(analyzer):
+    """
+    Total viajes entre las paradas
+    """
+    return model.totalTrips(analyzer)
+
+def criticalStations(analyzer):
+    return model.criticalStations(analyzer)
+

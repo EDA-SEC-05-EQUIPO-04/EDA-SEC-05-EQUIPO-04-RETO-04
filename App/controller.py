@@ -24,6 +24,7 @@
  *
  """
 
+from App.model import newAnalyzer
 import config as cf
 from App import model
 import csv
@@ -100,3 +101,22 @@ def sameCC(analyzer,station1,station2):
     """
     """
     return model.sameCC(analyzer['components'],station1,station2)
+
+def fourthRequirement(analyzer,station,resistencia, resistenciamin):
+    """
+    Numero de componentes fuertemente conectados
+    """
+    return model.fourthRequirement(analyzer,station,resistencia,resistenciamin)
+
+def fifthRequirement(cont,rango):
+    return model.fifthRequirement(cont,rango)
+
+def sixthRequirement(cont,latitud,longitud,latitud2,longitud2):
+
+    return model.sixthRequirement(cont,latitud,longitud,latitud2,longitud2)
+
+def seventhRequirement(cont,rango):
+    return model.seventhRequirement(cont,rango)
+
+def eighthRequirement(cont,id,fecha):
+    return model.eighthRequirement(cont,id,fecha)

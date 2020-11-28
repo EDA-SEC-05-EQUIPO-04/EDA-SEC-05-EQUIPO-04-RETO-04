@@ -26,10 +26,14 @@
 
 
 import sys
+from typing import Iterator
 import config
 from App import controller
 from DISClib.ADT import stack
+from DISClib.DataStructures import listiterator as it
+from DISClib.ADT.graph import gr
 import timeit
+import numpy as np
 assert config
 
 """
@@ -72,6 +76,70 @@ def optionOne():
         res="NO"
 
     print('La estación {} y la estación {} {} pertencen al mismo cluster.'.format(station1,station2,res))
+
+def optionFour():
+    station=input("Id de la estación que se encuentra:\n")
+    resistenciamin=input("¿Cuanto quieres pedalear minimo?: \n")
+    resistencia=input("¿Que tanto puedes pedalear? (minutos):\n")
+    res=controller.fourthRequirement(cont,station,resistencia,resistenciamin)
+    if res==None:
+        print('No alcanzas a llegar a ningun estación :( . Mejora tu resistencia!')
+    else:
+        print('La ruta es la siguiente:')
+        iterator=it.newIterator(res)
+        while it.hasNext(iterator):
+            element=it.next(iterator)
+            iterator2=it.newIterator(element)
+            ruta=station
+            distancia=0
+            estacion2=""
+            while it.hasNext(iterator2):
+                element2=it.next(iterator2)
+                estacion2=element2['vertexB']
+                ruta+="-"+estacion2
+                distancia+=int(element2['weight'])
+            print("Estación inicial: {}, estación final: {} duración de viaje: {}, ruta: {}".format(station,estacion2,distancia, ruta))
+
+def optionFifth():
+    rango=int(np.floor(int(input("Digite su edad:\n"))/10))
+    res=controller.fifthRequirement(cont,rango)
+    
+def optionSixth():
+    latitud= np.radians(float(input("Latitud posición actual:\n")))
+    longitud= np.radians(float(input("Longitud posición actual:\n")))
+    latitud2= np.radians(float(input("Latitud posición NYC:\n")))
+    longitud2= np.radians(float(input("Longitud posición NYC:\n")))
+    dict=controller.sixthRequirement(cont,latitud,longitud,latitud2,longitud2)    
+    iterator=it.newIterator(dict['ruta'])
+    ruta=dict['origen']
+    while it.hasNext(iterator):
+        element=it.next(iterator)
+        estacion2=element['vertexB']
+        ruta+="-"+estacion2
+        
+    print("Estación inicial: {}, estación final: {} duración de viaje: {}, ruta: {}".format(dict['origen'],dict['destino'],dict['duracion'], ruta))
+
+def optionSeventh():
+    rango=int(np.floor(int(input("Digite su edad:\n"))/10))
+    res=controller.seventhRequirement(cont,rango)
+    print("Las parejas adjacentes mas frecuentadas por el grupo de edad {}'s son: {}-{} con una frecuencia de {}".format(int(rango)*10,res['vertexA'],res['vertexB'],res['weight']))
+
+def optionEighth():
+    id=int(input("Digite el indicador de bicicleta:\n"))
+    fecha=input("Digite la fecha a buscar:\n")
+    res=controller.eighthRequirement(cont,id,fecha)
+
+def compareStations(stop, keyvaluestop):
+    """
+    Compara dos estaciones
+    """
+    stopcode = keyvaluestop['key']
+    if (stop == stopcode):
+        return 0
+    elif (stop > stopcode):
+        return 1
+    else:
+        return -1
 
 def printMenu():
     print("\n")
@@ -117,5 +185,42 @@ while True:
         executiontime = timeit.timeit(optionOne, number=1)
         print("Tiempo de ejecución: " + str(executiontime))
         printRespuesta()
+    
+    elif inputs == "R2":
+        None
+
+    elif inputs == "R3":
+        None
+    
+    elif inputs == "R4":
+        printRespuesta()
+        executiontime = timeit.timeit(optionFour, number=1)
+        print("Tiempo de ejecución: " + str(executiontime))
+        printRespuesta()
+
+    elif inputs == "R5":
+        printRespuesta()
+        executiontime = timeit.timeit(optionFifth, number=1)
+        print("Tiempo de ejecución: " + str(executiontime))
+        printRespuesta()
+    
+    elif inputs == "R6":
+        printRespuesta()
+        executiontime = timeit.timeit(optionSixth, number=1)
+        print("Tiempo de ejecución: " + str(executiontime))
+        printRespuesta()
+    
+    elif inputs == "R7":
+        printRespuesta()
+        executiontime = timeit.timeit(optionSeventh, number=1)
+        print("Tiempo de ejecución: " + str(executiontime))
+        printRespuesta()
+
+    elif inputs == "R8":
+        printRespuesta()
+        executiontime = timeit.timeit(optionEighth, number=1)
+        print("Tiempo de ejecución: " + str(executiontime))
+        printRespuesta()
+
     else:
         sys.exit(0)

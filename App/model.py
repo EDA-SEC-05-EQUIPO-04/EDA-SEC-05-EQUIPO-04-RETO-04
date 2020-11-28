@@ -175,7 +175,7 @@ def compareroutes(route1, route2):
         return -1
 
 def Function2 (controller, time1, time2, stationid):
-    station2= "127"
+    station2= input("a que estación quiere dirigirse? ")
 
     #CICLO
     road = djk.Dijkstra(controller["graph"], stationid)
@@ -191,7 +191,7 @@ def Function2 (controller, time1, time2, stationid):
         return lt.newList(datastructure='SINGLE_LINKED', cmpfunction=None)
         
     else:
-        if cam1 + cam2 in range(time1, time2):
+        if (cam1+((int(djk.pathTo(road, station2)['size'])*20))) + (cam2+((int(djk.pathTo(retorno, stationid)['size'])*20))) in range(time1, time2):
             
             print (djk.pathTo(road, station2))
             print (djk.pathTo(retorno, stationid))

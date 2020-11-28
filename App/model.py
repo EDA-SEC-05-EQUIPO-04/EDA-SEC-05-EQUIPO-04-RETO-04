@@ -181,30 +181,28 @@ def Function2 (controller, time1, time2, stationid):
     road = djk.Dijkstra(controller["graph"], stationid)
     caminoida= djk.pathTo(road, station2)
     retorno = djk.Dijkstra(controller["graph"], station2)
-    caminovuelta= djk.pathTo(road, stationid)
+    caminovuelta= djk.pathTo(retorno, stationid)
+
+    cam1= djk.distTo(road, station2)
+    cam2= djk.distTo(retorno, stationid)
 
     if lt.isEmpty(caminovuelta) or lt.isEmpty(caminoida):
         print("no hay camino conectado de "+ stationid + " a "+station2)
         return lt.newList(datastructure='SINGLE_LINKED', cmpfunction=None)
         
     else:
-        if (caminoida['info']['weight'])+(caminovuelta['info']['weight']) in range(time1, time2):
+        if cam1 + cam2 in range(time1, time2):
             
-            print(caminoida['info']['vertexA'])
-            print(caminoida['info']['vertexB'])
-            print(caminoida['info']['weight'])
-
+            print (djk.pathTo(road, station2))
+            print (djk.pathTo(retorno, stationid))
             
-            print(caminovuelta['info']['vertexA'])
-            print(caminovuelta['info']['vertexB'])
-            print(caminovuelta['info']['weight'])
 
             return("se encontró el siguiente camino de ida y vuelta")
         
         else:
             print("se encontró un camino, pero esta fuera de los parametros establecidos.")
             return lt.newList(datastructure='SINGLE_LINKED', cmpfunction=None)
- 
+
     #CICLO
 
     tup= (caminoida, caminovuelta)

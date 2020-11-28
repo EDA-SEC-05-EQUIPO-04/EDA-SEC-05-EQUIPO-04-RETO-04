@@ -200,6 +200,10 @@ def Function2 (controller, time1, time2, stationid):
             print(caminovuelta['info']['weight'])
 
             return("se encontró el siguiente camino de ida y vuelta")
+        
+        else:
+            print("se encontró un camino, pero esta fuera de los parametros establecidos.")
+            return lt.newList(datastructure='SINGLE_LINKED', cmpfunction=None)
  
     #CICLO
 

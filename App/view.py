@@ -160,6 +160,7 @@ def printMenu():
     print("R4- Requerimiento 4")
     print("R5- Requerimiento 5")
     print("R6- Requerimiento 6")
+    print("R7- Requerimiento 7")
     print("0- Salir")
     print("*******************************************")
 

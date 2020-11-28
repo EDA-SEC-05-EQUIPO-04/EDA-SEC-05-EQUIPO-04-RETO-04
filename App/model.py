@@ -355,7 +355,7 @@ def seventhRequirement(analyzer,edad):
     iterator=it.newIterator(lista1)
     while it.hasNext(iterator):
         element=it.next(iterator)
-        if gr.containsVertex(grafo2,element):
+        if gr.containsVertex(grafo2,element) and element !=res1:
             peso=min(djk.distTo(mpa2,res2),djk.distTo(mpa1,res1))
             return {'vertexA':res1,'vertexB':element,'weight':1.0/peso}
         

@@ -174,5 +174,15 @@ def compareroutes(route1, route2):
     else:
         return -1
 
-def Function2 (controller, time1, time2):
-    return scc.KosarajuSCC(controller)
+def Function2 (controller, time1, time2, stationid):
+    #CICLO
+    road = djk.Dijkstra(controller["graph"], stationid)
+    caminoida= djk.pathTo(road, "143")
+    retorno = djk.Dijkstra(controller["graph"], "143")
+    caminovuelta= djk.pathTo(road, stationid)
+    if lt.isEmpty(caminovuelta) or lt.isEmpty(caminoida):
+        return lt.newList(datastructure='SINGLE_LINKED', cmpfunction=None)   
+    #CICLO
+    tup= (caminoida, caminovuelta)
+
+    return tup
